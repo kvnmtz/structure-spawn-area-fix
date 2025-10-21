@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "dev.kvnmtz.structurespawnareafix.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "client": [
+  ],
+  "mixins": [
+    "NaturalSpawnerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

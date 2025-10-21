@@ -1,0 +1,28 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+issueTrackerURL = "https://github.com/kvnmtz/structure-spawn-area-fix"
+license = "ARR"
+
+[[mods]]
+modId = "structure_spawn_area_fix"
+version = "${version}"
+displayName = "Structure Spawn Area Fix"
+authors = "3xpl01t"
+description = '''
+Increases spawn areas for mobs around given structures
+'''
+#logoFile = ""
+
+[[dependencies.structure_spawn_area_fix]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.structure_spawn_area_fix]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"

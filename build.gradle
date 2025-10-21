@@ -1,0 +1,90 @@
+plugins {
+    id 'dev.architectury.loom' version '1.11-SNAPSHOT'
+    id 'maven-publish'
+}
+
+group = project.maven_group
+version = project.mod_version
+
+base {
+    archivesName = project.archives_name
+}
+
+loom {
+    silentMojangMappingsLicense()
+
+    forge {
+        mixinConfig 'structure_spawn_area_fix.mixins.json'
+    }
+}
+
+repositories {
+    // Add repositories to retrieve artifacts from in here.
+    // You should only use this when depending on other mods because
+    // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+    // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+    // for more information about repositories.
+	
+	// Parchment Mappings
+	maven {
+		name = 'ParchmentMC'
+		url = 'https://maven.parchmentmc.org'
+	}
+
+    // Citadel & Alex's Mobs
+    maven {
+        url = "https://cursemaven.com"
+        content {
+            includeGroup("curse.maven")
+        }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraft:minecraft:$project.minecraft_version"
+    
+	mappings loom.layered() {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-1.20.1:2023.09.03@zip")
+	}
+	
+    forge "net.minecraftforge:forge:$project.forge_version"
+
+    // For testing skelewag spawns
+    modRuntimeOnly("curse.maven:citadel-331936:6702068")
+    modRuntimeOnly("curse.maven:alexs-mobs-426558:5698791")
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('META-INF/mods.toml') {
+        expand version: inputs.properties.version
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 17
+}
+
+// Configure Maven publishing.
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
+    repositories {
+        // Add repositories to publish to here.
+        // Notice: This block does NOT have the same function as the block in the top level.
+        // The repositories here will be used for publishing your artifact, not for
+        // retrieving dependencies.
+    }
+}
